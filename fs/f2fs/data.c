@@ -1399,10 +1399,12 @@ int do_write_data_page(struct page *page, struct f2fs_io_info *fio)
 			need_inplace_update(inode))) {
 		rewrite_data_page(page, fio);
 		set_inode_flag(F2FS_I(inode), FI_UPDATE_WRITE);
+		trace_f2fs_do_write_data_page(page, IPU);
 	} else {
 		write_data_page(page, &dn, fio);
 		set_data_blkaddr(&dn);
 		f2fs_update_extent_cache(&dn);
+		trace_f2fs_do_write_data_page(page, OPU);
 		set_inode_flag(F2FS_I(inode), FI_APPEND_WRITE);
 	}
 out_writepage:
