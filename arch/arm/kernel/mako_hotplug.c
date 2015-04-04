@@ -299,7 +299,7 @@ static ssize_t mako_hotplug_enabled_show(struct device *dev,
     return sprintf(buf, "%d\n", t->mako_hotplug_enabled);
 }
 
-static ssize_t mako_hotplug_enabled_store(struct device *dev,
+static ssize_t __ref mako_hotplug_enabled_store(struct device *dev,
 		struct device_attribute *attr, const char *buf, size_t size)
 {
     struct hotplug_tunables *t = &tunables;
@@ -310,7 +310,7 @@ static ssize_t mako_hotplug_enabled_store(struct device *dev,
 	if (ret < 0)
 		return ret;
 	t->mako_hotplug_enabled = val;
-	
+
 	if (!t->mako_hotplug_enabled)
 		queue_delayed_work_on(0, wq, &decide_hotplug,
 		msecs_to_jiffies(t->timer * HZ * 500 ));
@@ -320,9 +320,9 @@ static ssize_t mako_hotplug_enabled_store(struct device *dev,
 		// Make sure to disable faux's hotplug
 		disable_intelli_plug();
 	}
-		
-	cpus_online_work();		
-	
+
+	cpus_online_work();
+
 	return size;
 }
 
