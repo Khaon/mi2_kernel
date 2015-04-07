@@ -20,7 +20,7 @@ export ANY_KERNEL=/home/khaon/kernels/AnyKernel2
 #Enable FIPS mode
 export USE_SEC_FIPS_MODE=true
 export ARCH=arm
-export CROSS_COMPILE=/home/khaon/Documents/toolchains/arm-cortex_a15-linux-gnueabihf-linaro_4.9.3-2015.02/bin/arm-cortex_a15-linux-gnueabihf-
+export CROSS_COMPILE=/home/khaon/Documents/Toolchains/arm-cortex_a15-linux-gnueabihf-linaro_4.9.3-2015.03/bin/arm-cortex_a15-linux-gnueabihf-
 
 echo "${txtbld} Remove old zImage ${txtrst}"
 make mrproper
