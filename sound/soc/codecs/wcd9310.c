@@ -42,6 +42,7 @@ static struct sound_control {
 	unsigned int default_headset_val;
 	unsigned int default_headphones_val;
 	unsigned int default_mic_gain_val;
+        unsigned int default_speakers_val;
 	struct snd_soc_codec *sound_control_codec;
 	bool lock;
 } soundcontrol = {
@@ -8510,6 +8511,30 @@ static const struct file_operations codec_mbhc_debug_ops = {
 #endif
 
 #ifdef CONFIG_SOUND_CONTROL
+
+void update_speakers_volume_boost(int vol_boost)
+{
+	unsigned int default_val = soundcontrol.default_speakers_val;
+	unsigned int boosted_val = (vol_boost != 0) ? default_val + vol_boost : default_val;
+
+	pr_info("Sound Control: Speakers default value %d\n", default_val);
+
+	soundcontrol.lock = false;
+	tabla_write(soundcontrol.sound_control_codec,
+		        TABLA_A_CDC_RX3_VOL_CTL_B2_CTL, boosted_val);
+	tabla_write(soundcontrol.sound_control_codec,
+			TABLA_A_CDC_RX4_VOL_CTL_B2_CTL, boosted_val);
+	soundcontrol.lock = true;
+
+	pr_info("Sound Control: Boosted Speakers RX3 value %d\n", 
+			tabla_read(soundcontrol.sound_control_codec, 
+                                                TABLA_A_CDC_RX3_VOL_CTL_B2_CTL));
+	pr_info("Sound Control: Boosted Speakers RX4 value %d\n", 
+			tabla_read(soundcontrol.sound_control_codec, 
+						TABLA_A_CDC_RX4_VOL_CTL_B2_CTL));
+}
+
+
 void update_headphones_volume_boost(int vol_boost)
 {
 	unsigned int default_val = soundcontrol.default_headphones_val;
@@ -8525,11 +8550,11 @@ void update_headphones_volume_boost(int vol_boost)
 				TABLA_A_CDC_RX2_VOL_CTL_B2_CTL, boosted_val);
 	soundcontrol.lock = true;
 	
-	pr_info("Sound Control: Boosted Headphones RX1 value %d\n", 
-			tabla_read(soundcontrol.sound_control_codec, 
+	pr_info("Sound Control: Boosted Headphones RX1 value %d\n",
+			tabla_read(soundcontrol.sound_control_codec,
 						TABLA_A_CDC_RX1_VOL_CTL_B2_CTL));
-	pr_info("Sound Control: Boosted Headphones RX2 value %d\n", 
-			tabla_read(soundcontrol.sound_control_codec, 
+	pr_info("Sound Control: Boosted Headphones RX2 value %d\n",
+			tabla_read(soundcontrol.sound_control_codec,
 						TABLA_A_CDC_RX2_VOL_CTL_B2_CTL));
 }
 
@@ -8817,8 +8842,8 @@ static int tabla_codec_probe(struct snd_soc_codec *codec)
 	 * Get the defaults using the tabla helper read reg function
 	 */
 	soundcontrol.default_headset_val = tabla_read(codec, TABLA_A_RX_HPH_L_GAIN);
-	soundcontrol.default_headphones_val = tabla_read(codec, 
-												TABLA_A_CDC_RX1_VOL_CTL_B2_CTL);
+	soundcontrol.default_headphones_val = tabla_read(codec,TABLA_A_CDC_RX1_VOL_CTL_B2_CTL);
+        soundcontrol.default_speakers_val = tabla_read(codec,TABLA_A_CDC_RX3_VOL_CTL_B2_CTL);
 
 	return ret;
 
