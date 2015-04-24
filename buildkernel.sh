@@ -14,13 +14,10 @@ txtrst=$(tput sgr0) # Reset
 export KERNELDIR=`readlink -f .`
 export PARENT_DIR=`readlink -f ..`
 export INITRAMFS_SOURCE=/home/khaon/Documents/kernels/Ramdisks/AOSP_ARIES
+export ANY_KERNEL=/media/khaon/54e4d854-fd7a-45a4-ac6b-3b46be763cc92/Documents/kernels/AnyKernel2
 export PACKAGEDIR=/home/khaon/Documents/kernels/Packages
-export META_INF=/home/khaon/kernels/zip_builders/Aries
-export ANY_KERNEL=/home/khaon/kernels/AnyKernel2
-#Enable FIPS mode
-export USE_SEC_FIPS_MODE=true
 export ARCH=arm
-export CROSS_COMPILE=/home/khaon/Documents/Toolchains/arm-cortex_a15-linux-gnueabihf-linaro_4.9.3-2015.03/bin/arm-cortex_a15-linux-gnueabihf-
+export CROSS_COMPILE=/media/khaon/54e4d854-fd7a-45a4-ac6b-3b46be763cc92/android/optiPop/prebuilts/gcc/linux-x86/arm/arm-eabi-4.9/bin/arm-eabi-
 
 echo "${txtbld} Remove old zImage ${txtrst}"
 make mrproper
