@@ -13,11 +13,11 @@ txtrst=$(tput sgr0) # Reset
 
 export KERNELDIR=`readlink -f .`
 export PARENT_DIR=`readlink -f ..`
-export INITRAMFS_SOURCE=/home/khaon/Documents/kernels/Ramdisks/AOSP_ARIES
-export ANY_KERNEL=/media/khaon/54e4d854-fd7a-45a4-ac6b-3b46be763cc92/Documents/kernels/AnyKernel2
-export PACKAGEDIR=/home/khaon/Documents/kernels/Packages
+export CCACHE_DIR=/home/khaon/caches/.ccache_kernels;
+export PACKAGEDIR=/home/khaon/Documents/kernels/Packages;
+export ANY_KERNEL=/mnt/sdb3/Documents/kernels/AnyKernel2;
 export ARCH=arm
-export CROSS_COMPILE=/media/khaon/54e4d854-fd7a-45a4-ac6b-3b46be763cc92/android/optiPop/prebuilts/gcc/linux-x86/arm/arm-eabi-4.9/bin/arm-eabi-
+export CROSS_COMPILE=/mnt/sdb3/android/optiPop/prebuilts/gcc/linux-x86/arm/arm-eabi-4.8/bin/arm-eabi-;
 
 echo "${txtbld} Remove old zImage ${txtrst}"
 make mrproper
